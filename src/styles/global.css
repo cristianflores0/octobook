@@ -245,6 +245,11 @@ body {
     hover:border-espuma hover:bg-white/10;
 }
 
+/* Contenedor común: todas las secciones arrancan en el mismo margen izquierdo */
+.contenedor {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+}
+
 /* Links a tiendas en las tarjetas de libro */
 .tienda {
   @apply rounded-full border border-espuma/25 px-3 py-1 text-espuma/85 transition
