@@ -1,6 +1,7 @@
 ---
-import { oceanos } from '../data/oceanos';
+import { oceanos, zonas } from '../data/oceanos';
 import { libros } from '../data/libros';
+import Octopus from './Octopus.astro';
 
 const frecuencias = [
   { v: 0, t: 'Casi nada', d: 'Uno o dos libros por año, cuando se da.' },
@@ -23,8 +24,9 @@ const busquedas = [
       Contale al pulpo cómo leés
     </h2>
 
+    <div class="mt-10 grid items-center gap-12 lg:grid-cols-[minmax(0,46rem)_1fr]">
     <form
-      class="mt-10 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl shadow-black/30 backdrop-blur-md sm:p-10"
+      class="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl shadow-black/30 backdrop-blur-md sm:p-10"
       data-quiz
       novalidate
     >
@@ -124,5 +126,15 @@ const busquedas = [
         <button type="button" class="boton" data-quiz-siguiente disabled>Siguiente ↓</button>
       </div>
     </form>
+
+    <!-- El pulpo acompaña la inmersión y cambia de especie según la profundidad del paso -->
+    <div class="hidden text-center lg:block" aria-hidden="true">
+      <div class="mx-auto w-full max-w-[280px]" data-quiz-pulpo>
+        <Octopus especie="comun" label="Pulpo guía" />
+      </div>
+      <p class="mt-4 font-display text-2xl text-white" data-quiz-pulpo-nombre>{zonas[0].pulpo}</p>
+      <p class="font-display text-espuma/60 italic" data-quiz-pulpo-cientifico>{zonas[0].cientifico}</p>
+    </div>
+    </div>
   </div>
 </section>

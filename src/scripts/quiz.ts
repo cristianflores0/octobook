@@ -9,7 +9,7 @@ import {
   type Recomendacion,
   type Respuestas,
 } from './recomendar';
-import { cambiarEspecie, desplegar, gsap, irA, reducido, ScrollTrigger } from './motion';
+import { cambiarEspecie, desplegar, gsap, irA, mecer, reducido, ScrollTrigger } from './motion';
 
 const MAX_OCEANOS = 3;
 const PASOS = 5;
@@ -79,6 +79,21 @@ function actualizarControles() {
   const sig = $<HTMLButtonElement>('[data-quiz-siguiente]', form);
   sig.disabled = !pasoValido();
   sig.textContent = estado.paso === PASOS - 1 ? 'Sumergirme 🐙' : 'Siguiente ↓';
+
+  actualizarPulpoGuia();
+}
+
+/** El pulpo al costado del cuestionario cambia de especie según los metros del paso */
+function actualizarPulpoGuia() {
+  const svg = document.querySelector<SVGSVGElement>('[data-quiz-pulpo] svg');
+  if (!svg) return;
+  const metros = METROS_PASO[estado.paso];
+  const zona = zonas.find((z) => metros < z.profundidad) ?? zonas[zonas.length - 1];
+  if (svg.dataset.especie === zona.especie) return;
+
+  cambiarEspecie(svg, zona.especie);
+  $('[data-quiz-pulpo-nombre]').textContent = zona.pulpo;
+  $('[data-quiz-pulpo-cientifico]').textContent = zona.cientifico;
 }
 
 function irAPaso(nuevo: number) {
@@ -275,6 +290,8 @@ function mostrarResultados() {
 
 export function iniciarQuiz() {
   const form = $('[data-quiz]');
+  const guia = document.querySelector<SVGSVGElement>('[data-quiz-pulpo] svg');
+  if (guia) mecer(guia, 5);
 
   form.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button');
