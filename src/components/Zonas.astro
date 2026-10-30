@@ -4,12 +4,12 @@ import Octopus from './Octopus.astro';
 ---
 
 <section id="zonas" class="relative px-4 py-28 sm:py-40">
-  <div class="mx-auto max-w-5xl">
-    <p class="text-sm tracking-[0.3em] text-espuma/80 uppercase" data-revelar>Cómo funciona</p>
-    <h2 class="mt-3 max-w-2xl font-display text-4xl leading-tight text-white sm:text-6xl" data-revelar>
+  <div class="mx-auto max-w-4xl">
+    <p class="text-center text-sm tracking-[0.3em] text-espuma/80 uppercase" data-revelar>Cómo funciona</p>
+    <h2 class="mx-auto mt-3 max-w-2xl text-center font-display text-4xl leading-tight text-balance text-white sm:text-6xl" data-revelar>
       Cuanto más bajás, más hondo leés
     </h2>
-    <p class="mt-5 max-w-2xl text-lg text-espuma/85" data-revelar>
+    <p class="mx-auto mt-5 max-w-2xl text-center text-lg text-balance text-espuma/85" data-revelar>
       Los pulpos viven desde la orilla hasta miles de metros bajo el agua. Las lecturas también: cada océano tiene
       cuatro profundidades, y en cada una te guía una especie distinta de pulpo.
     </p>
@@ -19,7 +19,7 @@ import Octopus from './Octopus.astro';
         zonas.map((z) => (
           <li class="zona relative" data-zona>
             <span class="absolute top-3 -left-[calc(2rem+6px)] block size-3 rounded-full bg-naranja ring-4 ring-naranja/20 sm:-left-[calc(3.5rem+6px)]" />
-            <div class="grid gap-6 md:grid-cols-[1fr_200px] md:items-center md:gap-10">
+            <div class="grid gap-6 md:grid-cols-[1fr_220px] md:items-center md:gap-12">
               <div>
                 <p class="font-display text-5xl text-white tabular-nums sm:text-6xl">
                   {z.metros.replace(' m', '')}
@@ -28,8 +28,8 @@ import Octopus from './Octopus.astro';
                 <p class="mt-4 text-xs tracking-[0.25em] text-naranja uppercase">
                   Nivel {z.nivel + 1} · {z.apodo} · {z.nombre}
                 </p>
-                <p class="mt-3 max-w-xl text-lg text-espuma/90">{z.descripcion}</p>
-                <div class="mt-6 max-w-xl rounded-2xl border border-espuma/15 bg-white/5 p-4 backdrop-blur-sm">
+                <p class="mt-3 text-lg text-espuma/90">{z.descripcion}</p>
+                <div class="mt-6 rounded-2xl border border-espuma/15 bg-white/5 p-4 backdrop-blur-sm">
                   <p class="text-white">
                     <span class="font-display text-2xl">{z.pulpo}</span>
                     <em class="ml-2 font-display text-espuma/60">{z.cientifico}</em>
