@@ -147,16 +147,7 @@ body {
   stroke-width: 4;
 }
 
-/* Pulpo Flapjack: aplanado como un panqueque, con membrana tipo paraguas */
-.pulpo .cuerpo {
-  transition: transform 0.6s ease;
-}
-/* Un poco más ancho y apenas más bajo: se lee chato sin achicarse ni tocar los bordes */
-.pulpo[data-especie="flapjack"] .cuerpo {
-  transform-box: view-box;
-  transform-origin: 350px 300px;
-  transform: scale(1.15, 0.9);
-}
+/* Pulpo Flapjack: misma silueta que el logo, se distingue por color y membrana */
 .pulpo[data-especie="flapjack"] .borde {
   --c: #ffc49b;
 }
