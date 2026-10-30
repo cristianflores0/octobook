@@ -216,6 +216,11 @@ function tarjeta(rec: Recomendacion, i: number) {
   $('[data-chip-zona]', nodo).textContent = `${z.metros} · ${z.pulpo}`;
   $('[data-chip-motivo]', nodo).textContent = motivos[motivo];
   $('[data-resena]', nodo).textContent = libro.resena;
+
+  const busqueda = encodeURIComponent(`${libro.titulo} ${libro.autor}`);
+  $<HTMLAnchorElement>('[data-tienda="amazon"]', nodo).href = `https://www.amazon.com/s?k=${busqueda}&i=stripbooks`;
+  $<HTMLAnchorElement>('[data-tienda="buscalibre"]', nodo).href =
+    `https://www.buscalibre.com.ar/libros/search?q=${busqueda}`;
   return nodo;
 }
 

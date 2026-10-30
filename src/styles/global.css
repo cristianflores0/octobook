@@ -251,6 +251,12 @@ body {
     hover:border-espuma hover:bg-white/10;
 }
 
+/* Links a tiendas en las tarjetas de libro */
+.tienda {
+  @apply rounded-full border border-espuma/25 px-3 py-1 text-espuma/85 transition
+    hover:border-naranja hover:text-naranja focus-visible:outline-2 focus-visible:outline-naranja;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
