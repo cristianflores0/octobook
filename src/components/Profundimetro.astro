@@ -1,0 +1,36 @@
+---
+// Medidor fijo que muestra a cuántos metros "estamos" según el scroll
+import { zonas } from '../data/oceanos';
+---
+
+<aside
+  id="profundimetro"
+  class="pointer-events-none fixed top-1/2 right-4 z-40 hidden -translate-y-1/2 flex-col items-end gap-3 xl:flex"
+  aria-hidden="true"
+>
+  <div class="relative h-64 w-px bg-current/30 text-espuma mix-blend-difference">
+    <span data-marcador class="absolute top-0 -left-[5px] block size-[11px] rounded-full bg-naranja"></span>
+    {
+      zonas.map((z, i) => (
+        <span
+          class="absolute right-3 -translate-y-1/2 text-[10px] tracking-widest whitespace-nowrap uppercase opacity-60"
+          style={`top:${(i / zonas.length) * 100}%`}
+        >
+          {z.apodo}
+        </span>
+      ))
+    }
+  </div>
+  <p class="font-display text-2xl text-espuma tabular-nums mix-blend-difference">
+    <span data-metros>0</span> m
+  </p>
+</aside>
+
+<!-- Versión compacta para mobile -->
+<p
+  id="profundimetro-mobile"
+  class="pointer-events-none fixed right-3 bottom-3 z-40 rounded-full bg-abismo/60 px-3 py-1 text-xs text-espuma tabular-nums backdrop-blur xl:hidden"
+  aria-hidden="true"
+>
+  <span data-metros>0</span> m
+</p>

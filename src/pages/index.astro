@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Profundimetro from '../components/Profundimetro.astro';
+import Hero from '../components/Hero.astro';
+import Zonas from '../components/Zonas.astro';
+import Oceanos from '../components/Oceanos.astro';
+import Quiz from '../components/Quiz.astro';
+import Resultados from '../components/Resultados.astro';
+import Pie from '../components/Pie.astro';
+---
+
+<Layout>
+  <Profundimetro />
+  <div class="pointer-events-none fixed inset-0 z-20 overflow-hidden" data-burbujas aria-hidden="true"></div>
+
+  <main class="relative z-10">
+    <Hero />
+    <div class="oceano">
+      <Zonas />
+      <Oceanos />
+      <Quiz />
+      <Resultados />
+      <Pie />
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import '../scripts/main';
+</script>

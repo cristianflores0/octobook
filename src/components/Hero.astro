@@ -1,0 +1,53 @@
+---
+import Octopus from './Octopus.astro';
+---
+
+<section id="superficie" class="superficie relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-4 pt-16 pb-40 text-azul">
+  <div class="rayos pointer-events-none absolute inset-0 opacity-70"></div>
+
+  <div data-hero-pulpo class="relative w-[min(78vw,440px)]">
+    <Octopus class="w-full" label="Octobook, el pulpo lector" />
+  </div>
+
+  <p data-hero-marca class="wordmark mt-2 text-2xl text-azul sm:text-4xl">OCTOBOOK</p>
+
+  <h1
+    data-hero-titulo
+    class="mt-8 max-w-3xl text-center font-display text-5xl leading-[1.05] font-medium text-balance sm:text-7xl"
+  >
+    Sumergite en la lectura
+  </h1>
+  <p data-hero-bajada class="mt-5 max-w-xl text-center text-lg text-azul/80 text-balance">
+    Cada género es un océano. Contanos cómo leés y el pulpo te va a guiar con
+    <strong class="font-semibold text-azul">ocho recomendaciones</strong>, una por tentáculo, a la profundidad justa para vos.
+  </p>
+  <div data-hero-acciones class="mt-9 flex flex-wrap justify-center gap-3">
+    <a href="#inmersion" data-scroll class="boton">Empezar la inmersión ↓</a>
+    <a href="#zonas" data-scroll class="boton-sec border-azul/40 text-azul hover:border-azul hover:bg-azul/10">¿Cómo funciona?</a>
+  </div>
+
+  <!-- Superficie del agua -->
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 overflow-hidden" aria-hidden="true">
+    <svg class="ola absolute bottom-8 left-0 h-16 w-[200%]" viewBox="0 0 2400 100" preserveAspectRatio="none">
+      <path d="M0 50 Q150 0 300 50 T600 50 T900 50 T1200 50 T1500 50 T1800 50 T2100 50 T2400 50 V100 H0 Z" fill="rgb(111 162 220 / 0.55)"></path>
+    </svg>
+    <svg class="ola ola-lenta absolute bottom-0 left-0 h-20 w-[200%]" viewBox="0 0 2400 100" preserveAspectRatio="none">
+      <path d="M0 60 Q200 10 400 60 T800 60 T1200 60 T1600 60 T2000 60 T2400 60 V100 H0 Z" fill="#3f78c4"></path>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .ola {
+    animation: ola 9s linear infinite;
+  }
+  .ola-lenta {
+    animation-duration: 14s;
+    animation-direction: reverse;
+  }
+  @keyframes ola {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

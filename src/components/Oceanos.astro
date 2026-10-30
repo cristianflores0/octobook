@@ -1,0 +1,70 @@
+---
+import { oceanos } from '../data/oceanos';
+import { libros } from '../data/libros';
+
+const muestras = Object.fromEntries(
+  oceanos.map((o) => [
+    o.id,
+    [0, 1, 2, 3].map((n) => libros.find((l) => l.oceano === o.id && l.nivel === n)!),
+  ]),
+);
+---
+
+<section id="oceanos" class="relative py-28 sm:py-36">
+  <div class="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="text-sm tracking-[0.3em] text-espuma/80 uppercase" data-revelar>Ocho océanos</p>
+      <h2 class="mt-3 max-w-xl font-display text-4xl leading-tight text-white sm:text-6xl" data-revelar>
+        Cada género es un océano
+      </h2>
+      <p class="mt-4 max-w-lg text-espuma/80" data-revelar>
+        Arrastrá para explorarlos. Elegí los que te llamen y el pulpo los va a tener en cuenta.
+      </p>
+    </div>
+    <div class="flex gap-2" data-revelar>
+      <button class="boton-sec size-12 justify-center p-0" data-carrusel-prev aria-label="Océano anterior">←</button>
+      <button class="boton-sec size-12 justify-center p-0" data-carrusel-next aria-label="Océano siguiente">→</button>
+    </div>
+  </div>
+
+  <div class="mt-12 overflow-hidden" data-carrusel>
+    <ul class="flex w-max cursor-grab gap-5 px-4 active:cursor-grabbing sm:px-[max(1rem,calc((100vw-72rem)/2+1rem))]" data-carrusel-pista>
+      {
+        oceanos.map((o, i) => (
+          <li
+            class="oceano-card relative flex w-[78vw] max-w-[330px] shrink-0 flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur-md select-none"
+            style={`--oc:${o.color}`}
+          >
+            <div
+              class="pointer-events-none absolute -top-24 -right-24 size-64 rounded-full opacity-40 blur-3xl"
+              style="background:var(--oc)"
+            />
+            <p class="text-xs tracking-[0.25em] text-espuma/70 uppercase">
+              Tentáculo {i + 1} · {o.genero}
+            </p>
+            <h3 class="mt-2 font-display text-3xl" style="color:var(--oc)">
+              {o.nombre}
+            </h3>
+            <p class="mt-2 min-h-12 text-sm text-espuma/80">{o.lema}</p>
+            <ol class="mt-6 space-y-3 border-l border-white/15 pl-4 text-sm">
+              {muestras[o.id].map((l, n) => (
+                <li>
+                  <span class="block text-[10px] tracking-widest text-espuma/50 uppercase">Nivel {n + 1}</span>
+                  <span class="text-white">{l.titulo}</span>
+                  <span class="text-espuma/60"> · {l.autor}</span>
+                </li>
+              ))}
+            </ol>
+            <button
+              class="boton-sec mt-8 justify-center text-sm"
+              data-elegir-oceano={o.id}
+              aria-pressed="false"
+            >
+              <span data-txt>Explorar este océano</span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

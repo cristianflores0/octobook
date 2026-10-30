@@ -1,0 +1,128 @@
+---
+import { oceanos } from '../data/oceanos';
+import { libros } from '../data/libros';
+
+const frecuencias = [
+  { v: 0, t: 'Casi nada', d: 'Uno o dos libros por año, cuando se da.' },
+  { v: 1, t: 'De vez en cuando', d: 'Entre 3 y 10 libros por año.' },
+  { v: 2, t: 'Bastante', d: 'Entre 11 y 25 libros por año.' },
+  { v: 3, t: 'Lector voraz', d: 'Más de 25. Siempre hay uno en la mesa de luz.' },
+];
+const busquedas = [
+  { v: 'atrapar', t: 'Algo que me atrape', d: 'Quiero no poder soltarlo.' },
+  { v: 'desafio', t: 'Un desafío', d: 'Llevame un poco más hondo de lo habitual.' },
+  { v: 'breve', t: 'Algo breve', d: 'Prefiero lecturas cortas.' },
+  { v: 'sorpresa', t: 'Sorprendeme', d: 'Sumá algún océano que no elegí.' },
+];
+---
+
+<section id="inmersion" class="relative px-4 py-28 sm:py-36">
+  <div class="mx-auto max-w-3xl">
+    <p class="text-sm tracking-[0.3em] text-espuma/80 uppercase" data-revelar>La inmersión</p>
+    <h2 class="mt-3 font-display text-4xl leading-tight text-white sm:text-6xl" data-revelar>
+      Contale al pulpo cómo leés
+    </h2>
+
+    <form
+      class="mt-10 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-2xl shadow-black/30 backdrop-blur-md sm:p-10"
+      data-quiz
+      novalidate
+    >
+      <div class="flex items-center justify-between gap-4 text-sm text-espuma/70">
+        <span data-quiz-paso-txt>Paso 1 de 5</span>
+        <span><span data-quiz-metros>0</span> m de inmersión</span>
+      </div>
+      <div class="mt-3 h-1 overflow-hidden rounded-full bg-white/10">
+        <div class="h-full w-1/5 origin-left rounded-full bg-naranja" data-quiz-barra></div>
+      </div>
+
+      <!-- Paso 1 -->
+      <fieldset class="paso mt-8" data-paso="0">
+        <legend class="font-display text-3xl text-white">¿Cuánto leés?</legend>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2" role="radiogroup" aria-label="Frecuencia de lectura">
+          {
+            frecuencias.map((f) => (
+              <button type="button" class="opcion" role="radio" aria-checked="false" data-campo="frecuencia" data-valor={f.v}>
+                <span class="block font-semibold text-white">{f.t}</span>
+                <span class="mt-1 block text-sm text-espuma/70">{f.d}</span>
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <!-- Paso 2 -->
+      <fieldset class="paso mt-8 hidden" data-paso="1">
+        <legend class="font-display text-3xl text-white">¿Qué océanos te llaman?</legend>
+        <p class="mt-2 text-espuma/70">Elegí hasta tres.</p>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2">
+          {
+            oceanos.map((o) => (
+              <button
+                type="button"
+                class="opcion flex items-center gap-3"
+                aria-pressed="false"
+                data-campo="oceanos"
+                data-valor={o.id}
+              >
+                <span class="size-3 shrink-0 rounded-full" style={`background:${o.color}`} />
+                <span>
+                  <span class="block font-semibold text-white">{o.genero}</span>
+                  <span class="block text-sm text-espuma/60">{o.nombre}</span>
+                </span>
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <!-- Paso 3: se completa según los océanos elegidos -->
+      <fieldset class="paso mt-8 hidden" data-paso="2">
+        <legend class="font-display text-3xl text-white">¿Cuánto conocés cada océano?</legend>
+        <div class="mt-6 space-y-6" data-familiaridad></div>
+      </fieldset>
+
+      <!-- Paso 4 -->
+      <fieldset class="paso mt-8 hidden" data-paso="3">
+        <legend class="font-display text-3xl text-white">¿Qué leíste o estás leyendo?</legend>
+        <p class="mt-2 text-espuma/70">Marcá los que ya conocés: el pulpo no te los va a repetir y ajusta la profundidad.</p>
+        <div class="mt-6 flex flex-wrap gap-2" data-leidos-sugeridos></div>
+        <label class="mt-6 block text-sm text-espuma/70" for="buscar-libro">¿Otro libro? Buscalo por título</label>
+        <div class="mt-2 flex gap-2">
+          <input
+            id="buscar-libro"
+            list="catalogo-titulos"
+            class="w-full rounded-full border border-white/20 bg-white/5 px-5 py-3 text-white placeholder:text-espuma/40 focus:border-naranja focus:outline-none"
+            placeholder="Ej.: Rayuela"
+            data-buscar-libro
+          />
+          <button type="button" class="boton-sec shrink-0" data-agregar-libro>Agregar</button>
+        </div>
+        <datalist id="catalogo-titulos">
+          {libros.map((l) => <option value={l.titulo}>{l.autor}</option>)}
+        </datalist>
+        <div class="mt-4 flex flex-wrap gap-2" data-leidos-extra></div>
+      </fieldset>
+
+      <!-- Paso 5 -->
+      <fieldset class="paso mt-8 hidden" data-paso="4">
+        <legend class="font-display text-3xl text-white">¿Qué estás buscando ahora?</legend>
+        <div class="mt-6 grid gap-3 sm:grid-cols-2" role="radiogroup" aria-label="Qué buscás">
+          {
+            busquedas.map((b) => (
+              <button type="button" class="opcion" role="radio" aria-checked="false" data-campo="busqueda" data-valor={b.v}>
+                <span class="block font-semibold text-white">{b.t}</span>
+                <span class="mt-1 block text-sm text-espuma/70">{b.d}</span>
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <div class="mt-10 flex items-center justify-between gap-3">
+        <button type="button" class="boton-sec invisible" data-quiz-atras>← Atrás</button>
+        <button type="button" class="boton" data-quiz-siguiente disabled>Siguiente ↓</button>
+      </div>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,136 @@
+---
+/**
+ * Isologotipo de Octobook como SVG animable.
+ * Basado en el logo vectorizado: la mitad izquierda tiene 4 tentáculos y la
+ * derecha se espeja. Acá generamos los 8 trazos por separado (en coordenadas
+ * globales) para que GSAP pueda mover cada tentáculo de forma independiente.
+ *
+ * `especie` cambia el aspecto según la profundidad (ver estilos en global.css):
+ *   comun → pulpo del logo · cristal → transparente · flapjack → aplanado
+ *   con membrana · dumbo → con aletas-orejas.
+ */
+import type { Especie } from '../data/oceanos';
+
+interface Props {
+  class?: string;
+  especie?: Especie;
+  biolum?: boolean;
+  label?: string;
+}
+const {
+  class: className = '',
+  especie = 'comun',
+  biolum = false,
+  label = 'Octobook, el pulpo lector',
+} = Astro.props;
+
+const W = 700;
+const mitad = [
+  'M310 360 C200 380 90 300 100 200 C105 150 170 120 190 160 C205 190 170 215 155 195',
+  'M320 370 C260 360 200 340 205 300 C210 270 245 270 240 295',
+  'M315 410 C230 440 80 430 85 490 C90 540 160 545 170 505',
+  'M335 400 C325 470 290 540 230 550 C205 553 200 530 215 520',
+];
+
+// Espeja un path de comandos absolutos (M/C) sobre el eje vertical central
+const espejar = (d: string) => {
+  let esX = true;
+  return d.replace(/[A-Z]|-?\d+(\.\d+)?/g, (tok) => {
+    if (/[A-Z]/.test(tok)) {
+      esX = true;
+      return tok;
+    }
+    const n = Number(tok);
+    const out = esX ? W - n : n;
+    esX = !esX;
+    return String(out);
+  });
+};
+const origen = (d: string) => d.match(/M(\d+) (\d+)/)!.slice(1).map(Number);
+
+// Orden: 0-3 izquierda (de arriba hacia abajo), 4-7 derecha
+const tentaculos = [
+  ...mitad.map((d) => ({ d, o: origen(d), lado: -1 })),
+  ...mitad.map((d) => {
+    const dd = espejar(d);
+    return { d: dd, o: origen(dd), lado: 1 };
+  }),
+];
+---
+
+<svg
+  class:list={['pulpo overflow-visible', className, { biolum }]}
+  data-especie={especie}
+  viewBox="0 0 700 600"
+  role="img"
+  aria-label={label}
+>
+  <g class="cuerpo">
+  <!-- Membrana entre tentáculos (Flapjack y Dumbo) -->
+  <path
+    class="membrana"
+    d="M150 230 C110 360 150 470 240 530 C300 480 400 480 460 530 C550 470 590 360 550 230 C480 330 220 330 150 230 Z"
+  ></path>
+
+  <!-- Aletas con forma de orejas (Dumbo) -->
+  <g class="orejas">
+    <g data-oreja="-1" data-ox="285" data-oy="140">
+      <ellipse cx="212" cy="96" rx="72" ry="34" transform="rotate(-30 212 96)"></ellipse>
+    </g>
+    <g data-oreja="1" data-ox="415" data-oy="140">
+      <ellipse cx="488" cy="96" rx="72" ry="34" transform="rotate(30 488 96)"></ellipse>
+    </g>
+  </g>
+
+  {
+    ['borde', 'relleno'].map((capa) => (
+      <g class={capa}>
+        {tentaculos.map((t, i) => (
+          <path
+            class="t tentaculo"
+            data-t={i}
+            data-ox={t.o[0]}
+            data-oy={t.o[1]}
+            data-lado={t.lado}
+            d={t.d}
+          />
+        ))}
+        <g class="cabeza">
+          <circle class="m" cx="350" cy="165" r="112" />
+          <path class="m" d="M280 240 L420 240 L405 330 L350 380 L295 330 Z" />
+        </g>
+      </g>
+    ))
+  }
+
+  <g class="cabeza">
+    <!-- Sistema digestivo visible (Pulpo de cristal) -->
+    <g class="organo">
+      <ellipse cx="350" cy="150" rx="26" ry="44"></ellipse>
+      <path d="M350 194 C340 230 362 250 350 300"></path>
+    </g>
+    <g class="lunares">
+      <circle cx="332" cy="145" r="6" />
+      <circle cx="300" cy="135" r="5" />
+      <circle cx="375" cy="133" r="5" />
+      <circle cx="405" cy="180" r="4" />
+      <circle cx="360" cy="95" r="4" />
+      <circle cx="395" cy="110" r="3" />
+      <circle cx="345" cy="178" r="4" />
+      <circle cx="315" cy="178" r="3" />
+      <circle cx="428" cy="155" r="5" />
+    </g>
+    <g class="ojos">
+      <circle class="aro" cx="295" cy="268" r="26" />
+      <circle class="pupila" cx="295" cy="268" r="4" />
+      <circle class="aro" cx="405" cy="268" r="26" />
+      <circle class="pupila" cx="405" cy="268" r="4" />
+    </g>
+    <!-- Ojos cilíndricos (Pulpo de cristal) -->
+    <g class="ojos-cilindro">
+      <rect x="280" y="236" width="30" height="60" rx="15"></rect>
+      <rect x="390" y="236" width="30" height="60" rx="15"></rect>
+    </g>
+  </g>
+  </g>
+</svg>
