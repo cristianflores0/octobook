@@ -44,6 +44,9 @@ export function irA(destino: string | HTMLElement, offset = 0) {
 const tentaculos = (svg: SVGSVGElement, i: number) =>
   svg.querySelectorAll<SVGPathElement>(`.tentaculo[data-t="${i}"], [data-sostiene="${i}"]`);
 
+// Centro del cuerpo: girar desde acá mantiene los tentáculos pegados al pulpo
+const CENTRO = '350 330';
+
 const origenDe = (el: Element) => {
   const d = (el as HTMLElement).dataset;
   return `${d.ox} ${d.oy}`;
@@ -333,20 +336,18 @@ export function desplegar(svg: SVGSVGElement, tarjetas: HTMLElement[]) {
     return tl;
   }
 
+  // Cada tentáculo hace una ola corta desde el centro del cuerpo, sin saltos, y entrega su libro
   tarjetas.forEach((card, i) => {
     const paths = tentaculos(svg, i);
     const lado = Number(paths[0].dataset.lado);
-    tl.fromTo(
-      paths,
-      { rotation: -lado * 35 },
-      { rotation: 0, svgOrigin: origenDe(paths[0]), duration: 1.4, ease: 'elastic.out(1, 0.45)' },
-      i * 0.12,
-    ).fromTo(
-      card,
-      { opacity: 0, x: -lado * 80, scale: 0.92 },
-      { opacity: 1, x: 0, scale: 1, duration: 0.9, ease: 'power3.out' },
-      i * 0.12 + 0.15,
-    );
+    tl.to(paths, { rotation: lado * 9, svgOrigin: CENTRO, duration: 0.35, ease: 'sine.out' }, i * 0.12)
+      .to(paths, { rotation: 0, svgOrigin: CENTRO, duration: 0.8, ease: 'back.out(1.6)' }, i * 0.12 + 0.35)
+      .fromTo(
+        card,
+        { opacity: 0, x: -lado * 80, scale: 0.92 },
+        { opacity: 1, x: 0, scale: 1, duration: 0.9, ease: 'power3.out' },
+        i * 0.12 + 0.15,
+      );
   });
   return tl;
 }
