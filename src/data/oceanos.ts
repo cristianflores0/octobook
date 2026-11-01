@@ -83,7 +83,7 @@ export type OceanoId =
   | 'clasicos'
   | 'romance'
   | 'no-ficcion'
-  | 'latinoamericana';
+  | 'aventura';
 
 export interface Oceano {
   id: OceanoId;
@@ -145,11 +145,11 @@ export const oceanos: Oceano[] = [
     lema: 'Ciencia, historia, crónica y ensayo para entender el mundo.',
   },
   {
-    id: 'latinoamericana',
-    genero: 'Literatura latinoamericana',
-    nombre: 'Mar del Sur',
+    id: 'aventura',
+    genero: 'Aventura',
+    nombre: 'Mar de los Piratas',
     color: '#f5821f',
-    lema: 'Realismo mágico, laberintos borgeanos y voces de nuestro continente.',
+    lema: 'Islas del tesoro, viajes imposibles y héroes que se juegan todo.',
   },
 ];
 

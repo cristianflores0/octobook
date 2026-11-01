@@ -1,6 +1,7 @@
 ---
 import { oceanos } from '../data/oceanos';
 import { libros } from '../data/libros';
+import Octopus from './Octopus.astro';
 
 const muestras = Object.fromEntries(
   oceanos.map((o) => [
@@ -39,6 +40,9 @@ const muestras = Object.fromEntries(
               class="pointer-events-none absolute -top-24 -right-24 size-64 rounded-full opacity-40 blur-3xl"
               style="background:var(--oc)"
             />
+            <div class="relative mx-auto mt-4 mb-2 w-44" data-oceano-pulpo>
+              <Octopus genero={o.id} label={`Pulpo de ${o.genero.toLowerCase()}`} />
+            </div>
             <p class="text-xs tracking-[0.25em] text-espuma/70 uppercase">
               Tentáculo {i + 1} · {o.genero}
             </p>

@@ -9,7 +9,7 @@ import {
   type Recomendacion,
   type Respuestas,
 } from './recomendar';
-import { cambiarEspecie, desplegar, gsap, irA, mecer, reducido, ScrollTrigger } from './motion';
+import { cambiarEspecie, desplegar, gsap, irA, mecer, reducido, ScrollTrigger, vestir } from './motion';
 
 const MAX_OCEANOS = 3;
 const PASOS = 5;
@@ -202,6 +202,9 @@ function sincronizarOceanos() {
     b.classList.toggle('!bg-naranja/15', activo);
     $('[data-txt]', b).textContent = activo ? 'Elegido ✓' : 'Explorar este océano';
   });
+  // El guía se pone el accesorio del último océano elegido
+  const guia = document.querySelector<SVGSVGElement>('[data-quiz-pulpo] svg');
+  if (guia) vestir(guia, estado.oceanos.at(-1));
   actualizarControles();
 }
 
@@ -283,6 +286,7 @@ function mostrarResultados() {
   gsap
     .timeline({ delay: reducido ? 0 : 1 })
     .add(cambiarEspecie(svg, zona.especie))
+    .add(() => vestir(svg, estado.oceanos[0]), '-=0.9')
     .add(desplegar(svg, tarjetas), '-=0.4');
 }
 

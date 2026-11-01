@@ -40,8 +40,9 @@ export function irA(destino: string | HTMLElement, offset = 0) {
 
 /* ---------- El pulpo ---------- */
 
+// Incluye lo que el tentáculo sostiene (lupa, calavera, rosa) para que se mueva con él
 const tentaculos = (svg: SVGSVGElement, i: number) =>
-  svg.querySelectorAll<SVGPathElement>(`.tentaculo[data-t="${i}"]`);
+  svg.querySelectorAll<SVGPathElement>(`.tentaculo[data-t="${i}"], [data-sostiene="${i}"]`);
 
 const origenDe = (el: Element) => {
   const d = (el as HTMLElement).dataset;
@@ -254,6 +255,7 @@ function carrusel() {
   const pista = cont?.querySelector<HTMLElement>('[data-carrusel-pista]');
   if (!cont || !pista) return;
   const cards = gsap.utils.toArray<HTMLElement>('.oceano-card', pista);
+  pista.querySelectorAll<SVGSVGElement>('[data-oceano-pulpo] svg').forEach((svg) => mecer(svg, 4));
 
   let snaps: number[] = [];
   const limites = () => {
@@ -305,6 +307,19 @@ export function cambiarEspecie(svg: SVGSVGElement, especie: string) {
       svg.dataset.especie = especie;
     })
     .to(svg, { scale: 1, rotation: 0, opacity: 1, duration: 0.9, ease: 'back.out(1.6)' });
+}
+
+/** Le pone al pulpo el accesorio de un océano (o se lo saca si no hay ninguno) */
+export function vestir(svg: SVGSVGElement, genero?: string) {
+  if (svg.dataset.genero === (genero ?? '')) return;
+  svg.dataset.genero = genero ?? '';
+  const todos = svg.querySelectorAll<SVGGElement>('.accesorio');
+  const nuevos = [...todos].filter((a) => a.dataset.genero === genero);
+  todos.forEach((a) => {
+    if (!nuevos.includes(a)) a.style.display = 'none';
+  });
+  nuevos.forEach((a) => (a.style.display = ''));
+  if (!reducido && nuevos.length) gsap.from(nuevos, { y: -60, opacity: 0, duration: 0.6, ease: 'back.out(2)' });
 }
 
 /** Los tentáculos se despliegan y cada uno entrega un libro */

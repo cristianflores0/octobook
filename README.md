@@ -4,7 +4,7 @@
 
 ## El concepto
 
-- **Cada género literario es un océano.** Hay ocho: ciencia ficción, fantasía, policial y misterio, terror, clásicos, romance, no ficción y literatura latinoamericana.
+- **Cada género literario es un océano.** Hay ocho: ciencia ficción, fantasía, policial y misterio, terror, clásicos, romance, no ficción y aventura.
 - **Cada océano tiene cuatro profundidades**, de lecturas introductorias a obras complejas o de culto. A medida que hacés scroll el agua se oscurece y el profundímetro marca cuántos metros bajaste.
 - **El pulpo es el guía**, y cambia de especie según la profundidad:
 

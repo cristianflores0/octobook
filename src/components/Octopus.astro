@@ -9,21 +9,30 @@
  * siempre con la silueta y proporciones del logo:
  *   comun → pulpo del logo · cristal → transparente · flapjack → naranja
  *   con membrana · dumbo → con aletas-orejas.
+ *
+ * `genero` le suma el accesorio de un océano (ver Accesorios.astro); con
+ * 'todos' se dibujan todos ocultos para cambiarlos desde JS con `vestir()`.
  */
-import type { Especie } from '../data/oceanos';
+import { oceanos, type Especie, type OceanoId } from '../data/oceanos';
+import Accesorios from './Accesorios.astro';
 
 interface Props {
   class?: string;
   especie?: Especie;
   biolum?: boolean;
   label?: string;
+  genero?: OceanoId | 'todos';
 }
 const {
   class: className = '',
   especie = 'comun',
   biolum = false,
   label = 'Octobook, el pulpo lector',
+  genero,
 } = Astro.props;
+
+const generos = genero === 'todos' ? oceanos.map((o) => o.id) : genero ? [genero] : [];
+const ocultos = genero === 'todos';
 
 const W = 700;
 const mitad = [
@@ -62,6 +71,7 @@ const tentaculos = [
 <svg
   class:list={['pulpo overflow-visible', className, { biolum }]}
   data-especie={especie}
+  data-genero={ocultos ? undefined : genero}
   viewBox="0 0 700 600"
   role="img"
   aria-label={label}
@@ -82,6 +92,8 @@ const tentaculos = [
       <ellipse cx="488" cy="96" rx="72" ry="34" transform="rotate(30 488 96)"></ellipse>
     </g>
   </g>
+
+  <Accesorios capa="detras" generos={generos} ocultos={ocultos} />
 
   {
     ['borde', 'relleno'].map((capa) => (
@@ -133,5 +145,7 @@ const tentaculos = [
       <rect x="390" y="236" width="30" height="60" rx="15"></rect>
     </g>
   </g>
+
+  <Accesorios capa="delante" generos={generos} ocultos={ocultos} />
   </g>
 </svg>

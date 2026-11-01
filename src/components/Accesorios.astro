@@ -1,0 +1,177 @@
+---
+/**
+ * Accesorios de género para el pulpo, inspirados en un gran clásico de cada océano.
+ * Se dibujan en el mismo sistema de coordenadas que Octopus (700 × 600).
+ * `capa` separa lo que va detrás del cuerpo (la capa de Drácula) de lo que va delante.
+ * Los objetos con `data-sostiene` los lleva un tentáculo y se mueven con él.
+ */
+import type { OceanoId } from '../data/oceanos';
+
+interface Props {
+  capa: 'detras' | 'delante';
+  generos: OceanoId[];
+  ocultos?: boolean;
+}
+const { capa, generos, ocultos = false } = Astro.props;
+
+// Tentáculo superior derecho: el que sostiene lupa, calavera o rosa
+const MANO = 4;
+
+const espejo = (d: string) => d.replace(/(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)/g, (_, x, y) => `${700 - Number(x)} ${y}`);
+const estrella = (cx: number, cy: number, r: number) =>
+  Array.from({ length: 10 }, (_, i) => {
+    const a = (Math.PI / 5) * i - Math.PI / 2;
+    const rr = i % 2 ? r * 0.45 : r;
+    return `${i ? 'L' : 'M'}${(cx + rr * Math.cos(a)).toFixed(1)} ${(cy + rr * Math.sin(a)).toFixed(1)}`;
+  }).join(' ') + ' Z';
+const corazon = (x: number, y: number, k = 1.8) =>
+  `M${x} ${y - 6 * k} C${x - 6 * k} ${y - 16 * k} ${x - 20 * k} ${y - 8 * k} ${x - 12 * k} ${y + 2 * k} L${x} ${y + 14 * k} L${x + 12 * k} ${y + 2 * k} C${x + 20 * k} ${y - 8 * k} ${x + 6 * k} ${y - 16 * k} ${x} ${y - 6 * k} Z`;
+
+const cuelloDracula = 'M305 320 C230 300 175 210 185 70 C225 150 262 195 310 225 Z';
+const forroDracula = 'M298 300 C245 280 208 212 205 125 C236 180 265 205 302 236 Z';
+
+const visible = (g: OceanoId) => generos.includes(g);
+const estilo = ocultos ? 'display:none' : undefined;
+---
+
+{
+  capa === 'detras' && visible('terror') && (
+    <g class="accesorio" data-genero="terror" style={estilo}>
+      <path d={cuelloDracula} fill="#14091c" />
+      <path d={espejo(cuelloDracula)} fill="#14091c" />
+      <path d={forroDracula} fill="#b3172b" />
+      <path d={espejo(forroDracula)} fill="#b3172b" />
+    </g>
+  )
+}
+
+{
+  capa === 'delante' && (
+    <>
+      {visible('policial') && (
+        <g class="accesorio" data-genero="policial" style={estilo}>
+          <title>Gorra de cazador y lupa, como Sherlock Holmes</title>
+          <path d="M248 112 C250 28 450 28 452 112 Z" fill="#a7825a" />
+          <path class="fino" d="M300 48 L308 110 M350 36 V112 M400 48 L392 110 M262 80 H438" fill="none" />
+          <ellipse cx="350" cy="112" rx="124" ry="15" fill="#8c6a44" />
+          <ellipse cx="336" cy="36" rx="14" ry="8" fill="#8c6a44" />
+          <ellipse cx="364" cy="36" rx="14" ry="8" fill="#8c6a44" />
+          <g data-sostiene={MANO}>
+            <path d="M540 168 L572 118" stroke-width="16" stroke="#5a3a1c" />
+            <circle cx="594" cy="86" r="38" fill="rgb(219 240 255 / 0.55)" stroke="#c9a227" stroke-width="10" />
+            <path d="M574 70 A24 24 0 0 1 596 60" stroke="#fff" stroke-width="6" fill="none" />
+          </g>
+        </g>
+      )}
+
+      {visible('terror') && (
+        <g class="accesorio" data-genero="terror" style={estilo}>
+          <title>Capa, peinado y colmillos de Drácula</title>
+          <path
+            d="M244 140 C238 60 300 46 350 48 C400 46 462 60 456 140 C432 100 398 92 350 134 C302 92 268 100 244 140 Z"
+            fill="#14091c"
+          />
+          <path class="fino" d="M316 296 Q350 308 384 296" fill="none" />
+          <path d="M326 300 L334 326 L342 302 Z M358 302 L366 326 L374 300 Z" fill="#fff" />
+        </g>
+      )}
+
+      {visible('fantasia') && (
+        <g class="accesorio" data-genero="fantasia" style={estilo}>
+          <title>Sombrero de mago, como Merlín o Gandalf</title>
+          <path
+            d="M262 94 C300 40 318 -10 330 -60 C345 -82 384 -74 398 -40 C386 -52 368 -50 364 -34 C378 10 410 52 438 94 Z"
+            fill="#5b3fb8"
+          />
+          <ellipse cx="350" cy="96" rx="122" ry="20" fill="#4a2f9c" />
+          <path d={estrella(322, 40, 16)} fill="#e8c468" />
+          <path d={estrella(378, 4, 11)} fill="#e8c468" />
+          <path d="M388 62 a14 14 0 1 0 12 -20 a11 11 0 1 1 -12 20 Z" fill="#e8c468" />
+        </g>
+      )}
+
+      {visible('ciencia-ficcion') && (
+        <g class="accesorio" data-genero="ciencia-ficcion" style={estilo}>
+          <title>Casco de astronauta</title>
+          <ellipse cx="350" cy="356" rx="122" ry="24" fill="#9aa7b8" />
+          <path d="M350 26 V-22" fill="none" />
+          <circle cx="350" cy="-30" r="11" fill="#e5484d" />
+          <circle cx="350" cy="194" r="170" fill="rgb(200 235 255 / 0.16)" stroke="#dff3ff" stroke-width="7" />
+          <path d="M232 112 A140 140 0 0 1 330 44" stroke="#fff" stroke-width="12" fill="none" opacity="0.8" />
+        </g>
+      )}
+
+      {visible('clasicos') && (
+        <g class="accesorio" data-genero="clasicos" style={estilo}>
+          <title>Corona y calavera de Hamlet, príncipe de Dinamarca</title>
+          <path d="M262 100 L266 34 L306 70 L350 14 L394 70 L434 34 L438 100 Z" fill="#e8c468" />
+          <path d="M264 86 H436" stroke="#b8902e" stroke-width="4" fill="none" />
+          <circle cx="350" cy="60" r="10" fill="#e5484d" stroke-width="3" />
+          <circle cx="300" cy="90" r="7" fill="#5bc0eb" stroke-width="3" />
+          <circle cx="400" cy="90" r="7" fill="#5bc0eb" stroke-width="3" />
+          <g data-sostiene={MANO}>
+            <rect x="572" y="96" width="40" height="30" rx="8" fill="#f3ead6" />
+            <circle cx="592" cy="80" r="36" fill="#f3ead6" />
+            <circle cx="579" cy="82" r="9" fill="#2b2118" stroke="none" />
+            <circle cx="605" cy="82" r="9" fill="#2b2118" stroke="none" />
+            <path class="fino" d="M592 94 l-5 10 h10 Z M582 114 v10 M592 114 v10 M602 114 v10" fill="#2b2118" />
+          </g>
+        </g>
+      )}
+
+      {visible('romance') && (
+        <g class="accesorio" data-genero="romance" style={estilo}>
+          <title>Una rosa, como la de Romeo y Julieta</title>
+          <path d={corazon(250, 44)} fill="#ff8fab" />
+          <path d={corazon(440, 6, 1.4)} fill="#ff8fab" />
+          <g data-sostiene={MANO}>
+            <path d="M546 168 C558 130 570 104 590 70" stroke="#2f8a4e" stroke-width="10" fill="none" />
+            <path d="M564 126 C588 110 606 124 602 140 C584 146 568 142 564 126 Z" fill="#4cd4a0" />
+            <path d="M560 54 C556 20 584 20 592 30 C602 14 628 22 624 52 C622 80 600 92 592 92 C580 92 562 80 560 54 Z" fill="#e5484d" />
+            <path class="fino" d="M592 30 C584 44 598 54 604 44 M576 48 C580 66 604 70 610 54" fill="none" />
+          </g>
+        </g>
+      )}
+
+      {visible('no-ficcion') && (
+        <g class="accesorio" data-genero="no-ficcion" style={estilo}>
+          <title>Casco de explorador y anteojos, como Darwin en el Beagle</title>
+          <path d="M250 104 C254 20 446 20 450 104 Z" fill="#d9c391" />
+          <path d="M253 88 C320 82 380 82 447 88 L449 100 C380 94 320 94 251 100 Z" fill="#7a6235" />
+          <ellipse cx="350" cy="106" rx="132" ry="16" fill="#c4ab74" />
+          <circle cx="350" cy="30" r="8" fill="#7a6235" />
+          <circle cx="295" cy="268" r="38" fill="rgb(255 255 255 / 0.15)" />
+          <circle cx="405" cy="268" r="38" fill="rgb(255 255 255 / 0.15)" />
+          <path d="M331 260 Q350 248 369 260" fill="none" />
+        </g>
+      )}
+
+      {visible('aventura') && (
+        <g class="accesorio" data-genero="aventura" style={estilo}>
+          <title>Tricornio y parche de pirata, como en La isla del tesoro</title>
+          <path
+            d="M228 102 C238 50 276 44 300 70 C320 28 380 28 400 70 C424 44 462 50 472 102 C400 80 300 80 228 102 Z"
+            fill="#1b1b2e"
+          />
+          <path d="M240 98 C300 80 400 80 460 98" stroke="#e8c468" fill="none" />
+          <path d="M336 50 L364 74 M364 50 L336 74" stroke="#fff" stroke-width="5" />
+          <circle cx="350" cy="56" r="11" fill="#fff" stroke-width="3" />
+          <path d="M238 238 L272 258 M318 256 L458 168" fill="none" stroke-width="7" />
+          <circle cx="295" cy="268" r="31" fill="#111" />
+        </g>
+      )}
+    </>
+  )
+}
+
+<style>
+  .accesorio {
+    stroke: #0e2a63;
+    stroke-width: 6px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .accesorio .fino {
+    stroke-width: 3px;
+  }
+</style>
