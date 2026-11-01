@@ -69,6 +69,10 @@ body {
 .pulpo .pupila {
   fill: var(--color-naranja);
 }
+/* El pulpo lector mira hacia abajo, al libro */
+.pulpo[data-lector] .pupila {
+  transform: translateY(14px);
+}
 .pulpo .aro {
   fill: var(--ojo, var(--color-espuma));
   stroke: var(--color-naranja);

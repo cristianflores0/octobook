@@ -162,6 +162,16 @@ function hero() {
   cielo();
   if (reducido) return;
 
+  // El pulpo lector pasa de página cada tanto
+  const hoja = svg.querySelector('[data-hoja]');
+  if (hoja) {
+    gsap
+      .timeline({ repeat: -1, repeatDelay: 3.5, delay: 3 })
+      .set(hoja, { opacity: 1, scaleX: 1, svgOrigin: '350 0' })
+      .to(hoja, { scaleX: -1, skewY: -6, duration: 1, ease: 'power2.inOut' })
+      .set(hoja, { opacity: 0, scaleX: 1, skewY: 0 });
+  }
+
   const split = SplitText.create('[data-hero-titulo]', { type: 'words,chars', mask: 'words' });
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
   tl.from(pulpo, { y: 160, opacity: 0, scale: 0.8, duration: 1.6 })

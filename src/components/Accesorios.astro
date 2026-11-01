@@ -4,6 +4,7 @@
  * Se dibujan en el mismo sistema de coordenadas que Octopus (700 × 600).
  * `capa` separa lo que va detrás del cuerpo (la capa de Drácula) de lo que va delante.
  * Los objetos con `data-sostiene` los lleva un tentáculo y se mueven con él.
+ * `lector` le pone anteojos y un libro abierto (el pulpo que te recibe en la portada).
  */
 import type { OceanoId } from '../data/oceanos';
 
@@ -11,8 +12,9 @@ interface Props {
   capa: 'detras' | 'delante';
   generos: OceanoId[];
   ocultos?: boolean;
+  lector?: boolean;
 }
-const { capa, generos, ocultos = false } = Astro.props;
+const { capa, generos, ocultos = false, lector = false } = Astro.props;
 
 // Tentáculo superior derecho: el que sostiene lupa, calavera o rosa
 const MANO = 4;
@@ -29,6 +31,13 @@ const corazon = (x: number, y: number, k = 1.8) =>
 
 const cuelloDracula = 'M305 320 C230 300 175 210 185 70 C225 150 262 195 310 225 Z';
 const forroDracula = 'M298 300 C245 280 208 212 205 125 C236 180 265 205 302 236 Z';
+
+// Libro abierto sostenido frente al cuerpo: la página izquierda y su espejo
+const pagina = 'M350 342 C312 318 262 304 214 306 L210 412 C258 406 310 414 350 436 Z';
+const tapa = 'M350 352 C310 330 258 318 202 318 L198 424 C256 418 310 426 350 448 Z';
+const renglones = [328, 346, 364, 382, 400]
+  .map((y, i) => `M${236 + (i % 2) * 6} ${y - 6 + i * 1.5} C270 ${y - 8} 305 ${y + 2} ${336 - (i === 4 ? 30 : 0)} ${y + 14 + i * 1.5}`)
+  .join(' ');
 
 const visible = (g: OceanoId) => generos.includes(g);
 const estilo = ocultos ? 'display:none' : undefined;
@@ -160,6 +169,23 @@ const estilo = ocultos ? 'display:none' : undefined;
           <circle cx="295" cy="268" r="31" fill="#111" />
         </g>
       )}
+
+      {lector && (
+        <g class="accesorio" data-lector>
+          <title>Anteojos y un libro abierto</title>
+          <circle cx="295" cy="268" r="38" fill="rgb(255 255 255 / 0.18)" stroke="#3a2a12" />
+          <circle cx="405" cy="268" r="38" fill="rgb(255 255 255 / 0.18)" stroke="#3a2a12" />
+          <path d="M331 260 Q350 248 369 260 M257 262 L232 250 M443 262 L468 250" stroke="#3a2a12" fill="none" />
+          <path d={tapa} fill="#f5821f" />
+          <path d={espejo(tapa)} fill="#f5821f" />
+          <path d={pagina} fill="#fffaf0" />
+          <path d={espejo(pagina)} fill="#fffaf0" />
+          <path class="fino renglon" d={renglones} fill="none" />
+          <path class="fino renglon" d={espejo(renglones)} fill="none" />
+          <path d={espejo(pagina)} fill="#fffaf0" data-hoja style="opacity:0" />
+          <path d="M350 342 V436" fill="none" />
+        </g>
+      )}
     </>
   )
 }
@@ -173,5 +199,8 @@ const estilo = ocultos ? 'display:none' : undefined;
   }
   .accesorio .fino {
     stroke-width: 3px;
+  }
+  .accesorio .renglon {
+    stroke: #9bb3d6;
   }
 </style>

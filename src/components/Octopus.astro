@@ -22,6 +22,7 @@ interface Props {
   biolum?: boolean;
   label?: string;
   genero?: OceanoId | 'todos';
+  lector?: boolean;
 }
 const {
   class: className = '',
@@ -29,6 +30,7 @@ const {
   biolum = false,
   label = 'Octobook, el pulpo lector',
   genero,
+  lector = false,
 } = Astro.props;
 
 const generos = genero === 'todos' ? oceanos.map((o) => o.id) : genero ? [genero] : [];
@@ -72,6 +74,7 @@ const tentaculos = [
   class:list={['pulpo overflow-visible', className, { biolum }]}
   data-especie={especie}
   data-genero={ocultos ? undefined : genero}
+  data-lector={lector || undefined}
   viewBox="0 0 700 600"
   role="img"
   aria-label={label}
@@ -146,6 +149,6 @@ const tentaculos = [
     </g>
   </g>
 
-  <Accesorios capa="delante" generos={generos} ocultos={ocultos} />
+  <Accesorios capa="delante" generos={generos} ocultos={ocultos} lector={lector} />
   </g>
 </svg>
