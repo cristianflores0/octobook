@@ -9,6 +9,8 @@ export type Especie = 'comun' | 'cristal' | 'flapjack' | 'dumbo';
 export const zonas = [
   {
     nivel: 0,
+    lectura: 'Introductorio',
+    lecturaDetalle: 'Libros que atrapan desde la primera página. La puerta de entrada ideal a un género que todavía no conocés.',
     nombre: 'Zona epipelágica',
     apodo: 'Superficie',
     metros: '0 – 200 m',
@@ -24,6 +26,8 @@ export const zonas = [
   },
   {
     nivel: 1,
+    lectura: 'Intermedio',
+    lecturaDetalle: 'Clásicos del género y obras con más ambición, para cuando ya sabés qué te gusta.',
     nombre: 'Zona mesopelágica',
     apodo: 'Penumbra',
     metros: '200 – 1.000 m',
@@ -39,6 +43,8 @@ export const zonas = [
   },
   {
     nivel: 2,
+    lectura: 'Exigente',
+    lecturaDetalle: 'Obras canónicas que piden tiempo, atención y algo de experiencia en el género.',
     nombre: 'Zona batipelágica',
     apodo: 'Medianoche',
     metros: '1.000 – 3.000 m',
@@ -54,6 +60,8 @@ export const zonas = [
   },
   {
     nivel: 3,
+    lectura: 'Experto',
+    lecturaDetalle: 'Libros experimentales, de culto o monumentales, para quienes ya exploraron mucho.',
     nombre: 'Zona abisal y hadal',
     apodo: 'Abismo',
     metros: '3.000 – 7.000 m',

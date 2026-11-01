@@ -42,7 +42,7 @@ src/
 ├── components/
 │   ├── Octopus.astro         # el isologotipo como SVG animable (8 tentáculos + especies)
 │   ├── Hero.astro            # superficie: logo, título y olas
-│   ├── Zonas.astro           # las cuatro profundidades y su pulpo
+│   ├── Zonas.astro           # cómo funciona: pasos, niveles y la curiosidad de los pulpos
 │   ├── Oceanos.astro         # carrusel arrastrable de los ocho océanos
 │   ├── Quiz.astro            # el cuestionario de inmersión (5 pasos)
 │   ├── Resultados.astro      # los ocho tentáculos con sus libros

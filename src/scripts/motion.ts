@@ -201,23 +201,27 @@ function revelar() {
     });
   });
 
-  gsap.utils.toArray<HTMLElement>('[data-zona]').forEach((zona) => {
-    const pulpo = zona.querySelector<HTMLElement>('[data-zona-pulpo]')!;
-    const svg = pulpo.querySelector('svg')!;
-    mecer(svg, 6);
-    flotar(pulpo, pulpo.dataset.especie === 'flapjack' ? 6 : 12, gsap.utils.random(2.5, 3.5));
-
-    gsap
-      .timeline({ scrollTrigger: { trigger: zona, start: 'top 80%' } })
-      .from(zona.querySelectorAll(':scope > div > div:first-child > *'), {
-        x: -40,
-        opacity: 0,
-        duration: 0.9,
-        stagger: 0.08,
-        ease: 'power3.out',
-      })
-      .from(svg, { y: -120, opacity: 0, scale: 0.6, duration: 1.4, ease: 'power2.out' }, 0);
+  // Pasos y niveles de "Cómo funciona" entran en secuencia
+  ['[data-paso-como]', '[data-nivel-como]'].forEach((sel) => {
+    const items = gsap.utils.toArray<HTMLElement>(sel);
+    if (!items.length) return;
+    gsap.from(items, {
+      y: 50,
+      opacity: 0,
+      duration: 0.9,
+      stagger: 0.12,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: items[0], start: 'top 85%' },
+    });
   });
+
+  gsap.utils.toArray<HTMLElement>('[data-nivel-pulpo]').forEach((pulpo) => {
+    mecer(pulpo.querySelector('svg')!, 6);
+    flotar(pulpo, 8, gsap.utils.random(2.5, 3.5));
+  });
+
+  // Al abrir la curiosidad cambia el alto de la página
+  document.querySelectorAll('details').forEach((d) => d.addEventListener('toggle', () => ScrollTrigger.refresh()));
 }
 
 /** Burbujas que suben constantemente */

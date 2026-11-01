@@ -1,49 +1,124 @@
 ---
 import { zonas } from '../data/oceanos';
+import { libros } from '../data/libros';
 import Octopus from './Octopus.astro';
+
+const pasos = [
+  {
+    titulo: 'Contás cómo leés',
+    texto:
+      'Cinco preguntas rápidas: cuánto leés, qué géneros te interesan, cuánto conocés cada uno, qué libros ya leíste y qué tenés ganas de leer ahora.',
+  },
+  {
+    titulo: 'Elegís tus océanos',
+    texto:
+      'Cada género es un océano. Elegís hasta tres y en cada uno los libros están ordenados en cuatro niveles, de los más accesibles a los más exigentes.',
+  },
+  {
+    titulo: 'Calculamos tu profundidad',
+    texto:
+      'Con tu ritmo de lectura y lo que ya conocés de cada género estimamos tu nivel. Lo que marcaste como leído no se repite y te ubica más abajo.',
+  },
+  {
+    titulo: 'Recibís ocho libros',
+    texto:
+      'Uno por tentáculo, repartidos entre tus océanos: la mayoría a tu nivel y alguno un poco más hondo para animarte. Con reseña y enlaces para conseguirlos.',
+  },
+];
+
+// Un ejemplo concreto por nivel, del océano de ciencia ficción
+const ejemplo = (nivel: number) => libros.find((l) => l.oceano === 'ciencia-ficcion' && l.nivel === nivel)!;
 ---
 
 <section id="zonas" class="relative py-28 sm:py-40">
   <div class="contenedor">
     <p class="text-center text-sm tracking-[0.3em] text-espuma/80 uppercase" data-revelar>Cómo funciona</p>
-    <h2 class="mx-auto mt-3 max-w-2xl text-center font-display text-4xl leading-tight text-balance text-white sm:text-6xl" data-revelar>
-      Cuanto más bajás, más hondo leés
+    <h2 class="mx-auto mt-3 max-w-3xl text-center font-display text-4xl leading-tight text-balance text-white sm:text-6xl" data-revelar>
+      Un test corto, ocho libros a tu medida
     </h2>
     <p class="mx-auto mt-5 max-w-2xl text-center text-lg text-balance text-espuma/85" data-revelar>
-      Los pulpos viven desde la orilla hasta miles de metros bajo el agua. Las lecturas también: cada océano tiene
-      cuatro profundidades, y en cada una te guía una especie distinta de pulpo.
+      Respondés unas preguntas sobre cómo leés, te sumergís en los géneros que elegiste y el pulpo te recomienda
+      libros a la profundidad justa para vos.
     </p>
 
-    <ol class="relative mt-20 space-y-20 border-l border-espuma/25 pl-8 sm:space-y-28 sm:pl-14">
+    <!-- El mecanismo, paso a paso -->
+    <ol class="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {
-        zonas.map((z) => (
-          <li class="zona relative" data-zona>
-            <span class="absolute top-3 -left-[calc(2rem+6px)] block size-3 rounded-full bg-naranja ring-4 ring-naranja/20 sm:-left-[calc(3.5rem+6px)]" />
-            <div class="grid gap-6 md:grid-cols-[1fr_220px] md:items-center md:gap-12">
-              <div>
-                <p class="font-display text-5xl text-white tabular-nums sm:text-6xl">
-                  {z.metros.replace(' m', '')}
-                  <span class="text-2xl text-espuma/70"> m</span>
-                </p>
-                <p class="mt-4 text-xs tracking-[0.25em] text-naranja uppercase">
-                  Nivel {z.nivel + 1} · {z.apodo} · {z.nombre}
-                </p>
-                <p class="mt-3 text-lg text-espuma/90">{z.descripcion}</p>
-                <div class="mt-6 rounded-2xl border border-espuma/15 bg-white/5 p-4 backdrop-blur-sm">
-                  <p class="text-white">
-                    <span class="font-display text-2xl">{z.pulpo}</span>
-                    <em class="ml-2 font-display text-espuma/60">{z.cientifico}</em>
-                  </p>
-                  <p class="mt-1 text-sm text-espuma/75">{z.estetica}</p>
-                </div>
-              </div>
-              <div class="order-first w-40 md:order-none md:w-full" data-zona-pulpo data-especie={z.especie}>
-                <Octopus especie={z.especie} label={`${z.pulpo} (${z.cientifico})`} />
-              </div>
-            </div>
+        pasos.map((p, i) => (
+          <li class="rounded-3xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-md" data-paso-como>
+            <span class="flex size-10 items-center justify-center rounded-full bg-naranja font-display text-xl font-bold text-abismo">
+              {i + 1}
+            </span>
+            <h3 class="mt-5 font-display text-2xl text-white">{p.titulo}</h3>
+            <p class="mt-2 text-espuma/80">{p.texto}</p>
           </li>
         ))
       }
     </ol>
+
+    <!-- Los niveles de lectura -->
+    <div class="mt-24">
+      <h3 class="text-center font-display text-3xl text-white sm:text-4xl" data-revelar>Los cuatro niveles de profundidad</h3>
+      <p class="mx-auto mt-3 max-w-xl text-center text-balance text-espuma/75" data-revelar>
+        Cuanto más bajás, más exigente es la lectura. Por ejemplo, en ciencia ficción:
+      </p>
+      <ol class="relative mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          zonas.map((z) => (
+            <li class="relative rounded-3xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-md" data-nivel-como>
+              <div class="absolute -top-6 right-4 w-20" aria-hidden="true" data-nivel-pulpo>
+                <Octopus especie={z.especie} label={z.pulpo} />
+              </div>
+              <p class="text-xs tracking-[0.25em] text-naranja uppercase">Nivel {z.nivel + 1}</p>
+              <p class="mt-1 font-display text-3xl text-white">{z.lectura}</p>
+              <p class="mt-3 text-sm text-espuma/80">{z.lecturaDetalle}</p>
+              <p class="mt-5 border-t border-white/10 pt-4 text-sm">
+                <span class="block text-[10px] tracking-widest text-espuma/50 uppercase">Ejemplo</span>
+                <span class="text-white">{ejemplo(z.nivel).titulo}</span>
+                <span class="text-espuma/60"> · {ejemplo(z.nivel).autor}</span>
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <!-- Lo marítimo queda como curiosidad opcional -->
+    <details class="curiosidad group mx-auto mt-16 max-w-4xl rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm" data-revelar>
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-6 text-white">
+        <span>
+          <span class="block text-xs tracking-[0.25em] text-naranja uppercase">Curiosidad</span>
+          <span class="font-display text-2xl">¿Por qué pulpos y profundidades?</span>
+        </span>
+        <span class="text-2xl text-espuma/70 transition group-open:rotate-45" aria-hidden="true">+</span>
+      </summary>
+      <div class="px-6 pb-6">
+        <p class="text-espuma/80">
+          Los niveles siguen las zonas reales del océano, y en cada una vive una especie distinta de pulpo, que es la
+          que te guía cuando llegás ahí.
+        </p>
+        <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+          {
+            zonas.map((z) => (
+              <li class="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                <div class="w-16 shrink-0" aria-hidden="true">
+                  <Octopus especie={z.especie} label={z.pulpo} />
+                </div>
+                <div>
+                  <p class="text-xs tracking-[0.2em] text-espuma/60 uppercase">
+                    {z.metros} · {z.nombre}
+                  </p>
+                  <p class="mt-1 text-white">
+                    <span class="font-display text-xl">{z.pulpo}</span>
+                    <em class="ml-1 font-display text-espuma/60">{z.cientifico}</em>
+                  </p>
+                  <p class="mt-1 text-sm text-espuma/75">{z.estetica}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </details>
   </div>
 </section>
