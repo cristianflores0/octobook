@@ -18,6 +18,7 @@ export const zonas = [
     descripcion:
       'Aguas claras y con luz. Libros que te atrapan desde la primera página y son la puerta de entrada perfecta a un género.',
     especie: 'comun',
+    perfil: 'Como el pulpo común, sos un lector camaleónico: te adaptás a cualquier historia y te gusta probar de todo. Estos libros son una puerta de entrada clara a cada género, para que descubras qué te atrapa.',
     llegada: 'Te quedaste cerca de la superficie',
     pulpo: 'Pulpo común',
     cientifico: 'Octopus vulgaris',
@@ -35,6 +36,7 @@ export const zonas = [
     descripcion:
       'La luz empieza a apagarse. Clásicos del género y obras con más ambición, ideales cuando ya conocés el terreno.',
     especie: 'cristal',
+    perfil: 'Como el pulpo de cristal, ya se te ve por dentro: sabés lo que te gusta y empezás a mirar cómo están hechos los libros. Te esperan clásicos del género y obras con más ambición.',
     llegada: 'Bajaste hasta la penumbra',
     pulpo: 'Pulpo de cristal',
     cientifico: 'Vitreledonella richardi',
@@ -52,6 +54,7 @@ export const zonas = [
     descripcion:
       'Oscuridad total. Obras canónicas y exigentes que piden tiempo, atención y algo de experiencia previa.',
     especie: 'flapjack',
+    perfil: 'Como el Flapjack, te desplegás con calma sobre el fondo: tenés paciencia para obras exigentes que piden tiempo y atención, y que te lo devuelven con creces.',
     llegada: 'Bajaste hasta la medianoche',
     pulpo: 'Pulpo Flapjack',
     cientifico: 'Opisthoteuthis',
@@ -69,6 +72,7 @@ export const zonas = [
     descripcion:
       'Donde viven las criaturas más extrañas. Libros experimentales, de culto o monumentales para lectores que ya exploraron mucho.',
     especie: 'dumbo',
+    perfil: 'Como el Dumbo, aleteás donde pocos llegan: buscás libros raros, experimentales o monumentales, que no se parecen a nada que hayas leído antes.',
     llegada: 'Bajaste hasta el abismo',
     pulpo: 'Pulpo Dumbo',
     cientifico: 'Grimpoteuthis',

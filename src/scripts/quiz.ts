@@ -259,12 +259,12 @@ function mostrarResultados() {
 
   $('[data-res-titulo]').textContent = zona.llegada;
   $('[data-res-bajada]').textContent =
-    `${zona.metros} bajo la superficie. Acá te guía el ${zona.pulpo}, con ocho libros elegidos para vos: ` +
+    `Tu profundidad de lectura: nivel ${zona.lectura.toLowerCase()}. Te guía el ${zona.pulpo}, con ocho libros elegidos para vos: ` +
     'algunos a tu profundidad, otros para animarte a bajar un poco más.';
   $('[data-res-especie]').classList.remove('hidden');
   $('[data-res-especie-nombre]').textContent = zona.pulpo;
   $('[data-res-especie-cientifico]').textContent = zona.cientifico;
-  $('[data-res-especie-zona]').textContent = zona.estetica;
+  $('[data-res-especie-zona]').textContent = zona.perfil;
   const acciones = $('[data-res-acciones]');
   acciones.classList.remove('hidden');
   acciones.classList.add('flex');
