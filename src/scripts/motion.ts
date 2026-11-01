@@ -174,10 +174,10 @@ function hero() {
 
   const split = SplitText.create('[data-hero-titulo]', { type: 'words,chars', mask: 'words' });
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-  tl.from(split.chars, { yPercent: 110, duration: 0.9, stagger: 0.025, ease: 'back.out(1.7)' })
+  tl.from('[data-hero-marca]', { opacity: 0, letterSpacing: '0.9em', duration: 1.3 })
+    .from(split.chars, { yPercent: 110, duration: 0.9, stagger: 0.025, ease: 'back.out(1.7)' }, '<0.3')
     .from('[data-hero-bajada]', { y: 24, opacity: 0, duration: 0.9 }, '-=0.5')
-    .from(pulpo, { y: 120, opacity: 0, scale: 0.8, duration: 1.4 }, '<0.2')
-    .from('[data-hero-marca]', { opacity: 0, letterSpacing: '1.2em', duration: 1.4 }, '<0.4')
+    .from(pulpo, { y: 120, opacity: 0, scale: 0.8, duration: 1.4 }, '<')
     .from('[data-hero-acciones]', { y: 24, opacity: 0, duration: 0.9 }, '-=0.9')
     .add(() => flotar(pulpo));
 

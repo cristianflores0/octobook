@@ -4,14 +4,14 @@ import { oceanos } from '../data/oceanos';
 
 // Bandada de libros-gaviota: x/y en % del cielo, w en px, dir = sentido del vuelo, vel = segundos por cruce
 const bandada = [
-  { x: 8, y: 40, w: 140, dir: 1, vel: 26, cerca: true },
-  { x: 62, y: 2, w: 84, dir: 1, vel: 34 },
-  { x: 78, y: 46, w: 112, dir: -1, vel: 30, cerca: true },
-  { x: 30, y: 4, w: 62, dir: -1, vel: 42 },
-  { x: 88, y: 58, w: 74, dir: -1, vel: 38 },
-  { x: 16, y: 62, w: 98, dir: 1, vel: 32, cerca: true },
-  { x: 46, y: 34, w: 54, dir: -1, vel: 48 },
-].map((l, i) => ({ ...l, color: oceanos[(i * 3) % oceanos.length].color, solo: i > 3 }));
+  { x: 8, y: 74, w: 130, dir: 1, vel: 26, cerca: true },
+  { x: 62, y: 3, w: 84, dir: 1, vel: 34 },
+  { x: 70, y: 79, w: 104, dir: -1, vel: 30, cerca: true },
+  { x: 30, y: 8, w: 62, dir: -1, vel: 42 },
+  { x: 88, y: 13, w: 74, dir: -1, vel: 38 },
+  { x: 40, y: 69, w: 70, dir: 1, vel: 40 },
+  { x: 16, y: 4, w: 54, dir: -1, vel: 48 },
+].map((l, i) => ({ ...l, color: oceanos[(i * 3) % oceanos.length].color, solo: l.y > 10 }));
 
 const nubes = [
   { x: 4, y: 6, w: 300 },
@@ -23,7 +23,7 @@ const nubes = [
 ];
 ---
 
-<section id="superficie" class="superficie relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-4 pt-16 pb-40 text-azul">
+<section id="superficie" class="superficie relative flex min-h-svh flex-col items-center justify-center overflow-hidden pt-16 pb-40 text-azul lg:pt-10 lg:pb-32">
   <div class="rayos pointer-events-none absolute inset-0 opacity-70"></div>
 
   <!-- El cielo: nubes y libros que vuelan como gaviotas -->
@@ -63,25 +63,29 @@ const nubes = [
     }
   </div>
 
-  <h1
-    data-hero-titulo
-    class="relative z-10 max-w-3xl text-center font-display text-5xl leading-[1.05] font-medium text-balance sm:text-7xl"
-  >
-    Sumergite en la lectura
-  </h1>
-  <p data-hero-bajada class="relative z-10 mt-5 max-w-xl text-center text-lg text-azul/80 text-balance">
-    Cada género es un océano. Contanos cómo leés y el pulpo te va a guiar con
-    <strong class="font-semibold text-azul">ocho recomendaciones</strong>, una por tentáculo, a la profundidad justa para vos.
-  </p>
-  <div data-hero-pulpo class="relative z-10 mt-8 w-[min(72vw,380px)]">
-    <Octopus class="w-full" lector label="Octobook, el pulpo lector, con anteojos leyendo un libro" />
-  </div>
+  <!-- En celular se apila (marca, título, bajada, pulpo, botones); desde lg, texto a la izquierda y pulpo a la derecha -->
+  <div class="contenedor relative z-10 flex w-full flex-col items-center text-center lg:flex-row lg:justify-between lg:gap-12 lg:text-left">
+    <div class="contents lg:flex lg:max-w-xl lg:flex-col lg:items-start">
+      <p data-hero-marca class="wordmark order-1 text-3xl text-azul sm:text-5xl lg:pl-0! lg:text-6xl">OCTOBOOK</p>
+      <h1
+        data-hero-titulo
+        class="order-2 mt-6 max-w-3xl font-display text-5xl leading-[1.05] font-medium text-balance sm:text-7xl xl:text-8xl"
+      >
+        Sumergite en la lectura
+      </h1>
+      <p data-hero-bajada class="order-3 mt-5 max-w-xl text-lg text-azul/80 text-balance">
+        Cada género es un océano. Contanos cómo leés y el pulpo te va a guiar con
+        <strong class="font-semibold text-azul">ocho recomendaciones</strong>, una por tentáculo, a la profundidad justa para vos.
+      </p>
+      <div data-hero-acciones class="order-5 mt-9 flex flex-wrap justify-center gap-3 lg:justify-start">
+        <a href="#inmersion" data-scroll class="boton">Empezar la inmersión ↓</a>
+        <a href="#zonas" data-scroll class="boton-sec border-azul/40 text-azul hover:border-azul hover:bg-azul/10">¿Cómo funciona?</a>
+      </div>
+    </div>
 
-  <p data-hero-marca class="relative z-10 wordmark mt-2 text-2xl text-azul sm:text-4xl">OCTOBOOK</p>
-
-  <div data-hero-acciones class="relative z-10 mt-9 flex flex-wrap justify-center gap-3">
-    <a href="#inmersion" data-scroll class="boton">Empezar la inmersión ↓</a>
-    <a href="#zonas" data-scroll class="boton-sec border-azul/40 text-azul hover:border-azul hover:bg-azul/10">¿Cómo funciona?</a>
+    <div data-hero-pulpo class="relative order-4 mt-8 w-[min(72vw,360px)] shrink-0 lg:mt-0 lg:w-[min(42vw,520px)]">
+      <Octopus class="w-full" lector label="Octobook, el pulpo lector, con anteojos leyendo un libro" />
+    </div>
   </div>
 
   <!-- Superficie del agua -->
