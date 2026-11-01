@@ -82,10 +82,80 @@ function flotar(el: Element, y = 14, duracion = 3) {
 
 /* ---------- Secciones ---------- */
 
+/** Cruza el elemento de un borde al otro del cielo, en loop, arrancando desde su posición en el CSS */
+function cruzar(el: Element, cielo: HTMLElement, dir: number, duracion: number) {
+  const ancho = () => el.getBoundingClientRect().width;
+  const inicio = el.getBoundingClientRect().left - cielo.getBoundingClientRect().left;
+  const recorrido = cielo.offsetWidth + ancho();
+  const avance = dir > 0 ? inicio + ancho() : cielo.offsetWidth - inicio;
+  gsap.set(el, { left: 0 });
+  gsap
+    .fromTo(
+      el,
+      { x: () => (dir > 0 ? -ancho() : cielo.offsetWidth) },
+      { x: () => (dir > 0 ? cielo.offsetWidth : -ancho()), duration: duracion, ease: 'none', repeat: -1 },
+    )
+    .progress(gsap.utils.clamp(0, 1, avance / recorrido));
+}
+
+function cielo() {
+  const contenedor = document.querySelector<HTMLElement>('[data-cielo]');
+  if (reducido || !contenedor) return;
+
+  gsap.utils.toArray<SVGSVGElement>('[data-nube]').forEach((nube, i) => {
+    cruzar(nube, contenedor, i % 2 ? -1 : 1, gsap.utils.random(90, 150));
+  });
+
+  gsap.utils.toArray<HTMLElement>('[data-libro-gaviota]').forEach((libro) => {
+    const dir = Number(libro.dataset.dir);
+    cruzar(libro, contenedor, dir, Number(libro.dataset.vel));
+    const svg = libro.querySelector('svg')!;
+
+    // Vaivén vertical e inclinación, como una gaviota planeando
+    gsap.to(svg, {
+      y: gsap.utils.random(-18, -8),
+      rotation: dir * gsap.utils.random(3, 7),
+      duration: gsap.utils.random(2, 3.5),
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+
+    // Aleteo: unas tapas batidas y después planea
+    const aleteo = gsap.timeline({ repeat: -1, repeatDelay: gsap.utils.random(0.8, 2.2), delay: gsap.utils.random(0, 2) });
+    const batidas = gsap.utils.random(2, 4, 1);
+    libro.querySelectorAll<SVGGElement>('[data-ala]').forEach((ala) => {
+      const lado = Number(ala.dataset.ala);
+      aleteo
+        .to(
+          ala,
+          {
+            keyframes: [{ rotation: lado * -26 }, { rotation: lado * 18 }],
+            svgOrigin: '50 27',
+            duration: 0.42,
+            ease: 'sine.inOut',
+            repeat: batidas,
+          },
+          0,
+        )
+        .to(ala, { rotation: 0, svgOrigin: '50 27', duration: 0.3, ease: 'sine.out' }, 0.42 * (batidas + 1));
+    });
+  });
+
+  // Al zambullirnos, el cielo queda atrás
+  gsap.to(contenedor, {
+    yPercent: -25,
+    opacity: 0,
+    ease: 'none',
+    scrollTrigger: { trigger: '#superficie', start: 'top top', end: 'bottom top', scrub: true },
+  });
+}
+
 function hero() {
   const pulpo = document.querySelector<HTMLElement>('[data-hero-pulpo]')!;
   const svg = pulpo.querySelector('svg')!;
   mecer(svg, 5);
+  cielo();
   if (reducido) return;
 
   const split = SplitText.create('[data-hero-titulo]', { type: 'words,chars', mask: 'words' });

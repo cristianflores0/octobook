@@ -1,27 +1,85 @@
 ---
 import Octopus from './Octopus.astro';
+import { oceanos } from '../data/oceanos';
+
+// Bandada de libros-gaviota: x/y en % del cielo, w en px, dir = sentido del vuelo, vel = segundos por cruce
+const bandada = [
+  { x: 8, y: 9, w: 140, dir: 1, vel: 26, cerca: true },
+  { x: 62, y: 6, w: 84, dir: 1, vel: 34 },
+  { x: 78, y: 18, w: 112, dir: -1, vel: 30, cerca: true },
+  { x: 30, y: 24, w: 98, dir: 1, vel: 42 },
+  { x: 88, y: 34, w: 74, dir: -1, vel: 38 },
+  { x: 16, y: 38, w: 62, dir: -1, vel: 32, cerca: true },
+  { x: 46, y: 14, w: 54, dir: -1, vel: 48 },
+].map((l, i) => ({ ...l, color: oceanos[(i * 3) % oceanos.length].color, solo: i > 3 }));
+
+const nubes = [
+  { x: 4, y: 6, w: 300 },
+  { x: 58, y: 3, w: 380 },
+  { x: 34, y: 30, w: 220 },
+  { x: 82, y: 26, w: 260 },
+  { x: -6, y: 46, w: 240 },
+  { x: 70, y: 50, w: 200 },
+];
 ---
 
 <section id="superficie" class="superficie relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-4 pt-16 pb-40 text-azul">
   <div class="rayos pointer-events-none absolute inset-0 opacity-70"></div>
 
-  <div data-hero-pulpo class="relative w-[min(78vw,440px)]">
+  <!-- El cielo: nubes y libros que vuelan como gaviotas -->
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true" data-cielo>
+    {
+      nubes.map((n) => (
+        <svg class="nube absolute" style={`left:${n.x}%;top:${n.y}%;width:${n.w}px`} viewBox="0 0 200 80" data-nube>
+          <path d="M30 72 Q4 72 8 54 Q12 38 34 40 Q38 18 64 20 Q80 2 106 12 Q130 4 142 26 Q172 20 182 42 Q200 48 192 64 Q188 74 170 72 Z" fill="#c4d9f2" transform="translate(0 6)" />
+          <path d="M30 72 Q4 72 8 54 Q12 38 34 40 Q38 18 64 20 Q80 2 106 12 Q130 4 142 26 Q172 20 182 42 Q200 48 192 64 Q188 74 170 72 Z" fill="#fff" />
+        </svg>
+      ))
+    }
+    {
+      bandada.map((l) => (
+        <div
+          class:list={['libro-gaviota absolute', l.solo && 'hidden sm:block', !l.cerca && 'opacity-60']}
+          style={`left:${l.x}%;top:${l.y}%;width:${l.w}px`}
+          data-libro-gaviota
+          data-dir={l.dir}
+          data-vel={l.vel}
+        >
+          <svg viewBox="0 0 100 50" class="block w-full overflow-visible" stroke="#17459b" stroke-width="1.6" stroke-linejoin="round">
+            <g data-ala="-1">
+              <path d="M50 20 C38 9 22 7 5 11 L7 19 C23 15 38 18 50 28 Z" fill="#fffaf0" />
+              <path d="M50 24 C38 14 23 11 6 15" fill="none" stroke-width="0.8" />
+              <path d="M50 28 C38 18 23 15 7 19 L5 24 C22 20 38 24 50 33 Z" fill={l.color} />
+            </g>
+            <g data-ala="1">
+              <path d="M50 20 C62 9 78 7 95 11 L93 19 C77 15 62 18 50 28 Z" fill="#fffaf0" />
+              <path d="M50 24 C62 14 77 11 94 15" fill="none" stroke-width="0.8" />
+              <path d="M50 28 C62 18 77 15 93 19 L95 24 C78 20 62 24 50 33 Z" fill={l.color} />
+            </g>
+            <path d="M48 19 H52 V34 H48 Z" fill={l.color} />
+          </svg>
+        </div>
+      ))
+    }
+  </div>
+
+  <div data-hero-pulpo class="relative z-10 w-[min(78vw,440px)]">
     <Octopus class="w-full" label="Octobook, el pulpo lector" />
   </div>
 
-  <p data-hero-marca class="wordmark mt-2 text-2xl text-azul sm:text-4xl">OCTOBOOK</p>
+  <p data-hero-marca class="relative z-10 wordmark mt-2 text-2xl text-azul sm:text-4xl">OCTOBOOK</p>
 
   <h1
     data-hero-titulo
-    class="mt-8 max-w-3xl text-center font-display text-5xl leading-[1.05] font-medium text-balance sm:text-7xl"
+    class="relative z-10 mt-8 max-w-3xl text-center font-display text-5xl leading-[1.05] font-medium text-balance sm:text-7xl"
   >
     Sumergite en la lectura
   </h1>
-  <p data-hero-bajada class="mt-5 max-w-xl text-center text-lg text-azul/80 text-balance">
+  <p data-hero-bajada class="relative z-10 mt-5 max-w-xl text-center text-lg text-azul/80 text-balance">
     Cada género es un océano. Contanos cómo leés y el pulpo te va a guiar con
     <strong class="font-semibold text-azul">ocho recomendaciones</strong>, una por tentáculo, a la profundidad justa para vos.
   </p>
-  <div data-hero-acciones class="mt-9 flex flex-wrap justify-center gap-3">
+  <div data-hero-acciones class="relative z-10 mt-9 flex flex-wrap justify-center gap-3">
     <a href="#inmersion" data-scroll class="boton">Empezar la inmersión ↓</a>
     <a href="#zonas" data-scroll class="boton-sec border-azul/40 text-azul hover:border-azul hover:bg-azul/10">¿Cómo funciona?</a>
   </div>

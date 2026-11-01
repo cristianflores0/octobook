@@ -26,7 +26,7 @@ body {
 
 /* El océano: un único degradé que se oscurece a medida que bajamos */
 .superficie {
-  background: linear-gradient(to bottom, #dbe8f8 0%, #dbe8f8 55%, #b9d4f1 100%);
+  background: linear-gradient(to bottom, #a9c9ee 0%, #cfe0f6 30%, #dbe8f8 60%, #b9d4f1 100%);
 }
 .oceano {
   background: linear-gradient(
