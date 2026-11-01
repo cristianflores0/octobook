@@ -4,13 +4,13 @@ import { oceanos } from '../data/oceanos';
 
 // Bandada de libros-gaviota: x/y en % del cielo, w en px, dir = sentido del vuelo, vel = segundos por cruce
 const bandada = [
-  { x: 8, y: 9, w: 140, dir: 1, vel: 26, cerca: true },
-  { x: 62, y: 6, w: 84, dir: 1, vel: 34 },
-  { x: 78, y: 18, w: 112, dir: -1, vel: 30, cerca: true },
-  { x: 30, y: 24, w: 98, dir: 1, vel: 42 },
-  { x: 88, y: 34, w: 74, dir: -1, vel: 38 },
-  { x: 16, y: 38, w: 62, dir: -1, vel: 32, cerca: true },
-  { x: 46, y: 14, w: 54, dir: -1, vel: 48 },
+  { x: 8, y: 40, w: 140, dir: 1, vel: 26, cerca: true },
+  { x: 62, y: 2, w: 84, dir: 1, vel: 34 },
+  { x: 78, y: 46, w: 112, dir: -1, vel: 30, cerca: true },
+  { x: 30, y: 4, w: 62, dir: -1, vel: 42 },
+  { x: 88, y: 58, w: 74, dir: -1, vel: 38 },
+  { x: 16, y: 62, w: 98, dir: 1, vel: 32, cerca: true },
+  { x: 46, y: 34, w: 54, dir: -1, vel: 48 },
 ].map((l, i) => ({ ...l, color: oceanos[(i * 3) % oceanos.length].color, solo: i > 3 }));
 
 const nubes = [
@@ -63,15 +63,9 @@ const nubes = [
     }
   </div>
 
-  <div data-hero-pulpo class="relative z-10 w-[min(78vw,440px)]">
-    <Octopus class="w-full" lector label="Octobook, el pulpo lector, con anteojos leyendo un libro" />
-  </div>
-
-  <p data-hero-marca class="relative z-10 wordmark mt-2 text-2xl text-azul sm:text-4xl">OCTOBOOK</p>
-
   <h1
     data-hero-titulo
-    class="relative z-10 mt-8 max-w-3xl text-center font-display text-5xl leading-[1.05] font-medium text-balance sm:text-7xl"
+    class="relative z-10 max-w-3xl text-center font-display text-5xl leading-[1.05] font-medium text-balance sm:text-7xl"
   >
     Sumergite en la lectura
   </h1>
@@ -79,6 +73,12 @@ const nubes = [
     Cada género es un océano. Contanos cómo leés y el pulpo te va a guiar con
     <strong class="font-semibold text-azul">ocho recomendaciones</strong>, una por tentáculo, a la profundidad justa para vos.
   </p>
+  <div data-hero-pulpo class="relative z-10 mt-8 w-[min(72vw,380px)]">
+    <Octopus class="w-full" lector label="Octobook, el pulpo lector, con anteojos leyendo un libro" />
+  </div>
+
+  <p data-hero-marca class="relative z-10 wordmark mt-2 text-2xl text-azul sm:text-4xl">OCTOBOOK</p>
+
   <div data-hero-acciones class="relative z-10 mt-9 flex flex-wrap justify-center gap-3">
     <a href="#inmersion" data-scroll class="boton">Empezar la inmersión ↓</a>
     <a href="#zonas" data-scroll class="boton-sec border-azul/40 text-azul hover:border-azul hover:bg-azul/10">¿Cómo funciona?</a>
